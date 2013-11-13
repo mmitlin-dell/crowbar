@@ -16,6 +16,13 @@ declare -A SEEN_RPMS
 # we need extglobs, so enable them.
 shopt -s extglob
 
+
+fetch_os_iso() {
+    echo "$(date '+%F %T %z'): Downloading and caching $ISO"
+    curl -L -O $OS_ISO_SRC/$ISO
+    [[ -f $ISO_LIBRARY/$ISO ]] || die "$ISO could not be downloaded from Source:$ISO_LIBRARY/$ISO"
+}
+
 # Have the chroot update its package metadata
 chroot_update() { in_chroot /usr/bin/zypper refresh; }
 
@@ -81,6 +88,8 @@ add_repos() {
                 rm "$f"
                 in_chroot /bin/rpm -Uvh "$f";;
             bare) make_repo_file $rdest;;
+            repo) pkgnam=`echo $repo | awk '{print $3}'`
+                make_repo_file $pkgnam 20 $rdest;;
         esac
     done
     [[ $USE_PROXY = "1" ]] || return 0

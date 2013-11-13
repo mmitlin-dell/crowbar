@@ -12,6 +12,7 @@ OSC_MINSYS="base-meta-x86_64.tar.xz base-x86_64.tar.xz common-base-x86_64.tar.xz
 
 # The name of the OS iso we are using as a base.
 [[ $ISO ]] || ISO="openSUSE-12.3-DVD-x86_64.iso"
+OS_ISO_SRC="http://download.opensuse.org/distribution/12.3/iso/"
 
 OS_REPO_POOL=""
 
@@ -21,6 +22,6 @@ OS_REPO_POOL=""
 SHRINK_ISO=
 
 # The location of OS packages on $ISO
-find_cd_pool() ( echo "$IMAGE_DIR/suse/x86_64" )
+find_cd_pool() ( echo "$IMAGE_DIR/suse/" )
 
 . "$CROWBAR_DIR/opensuse-common/build_lib.sh"

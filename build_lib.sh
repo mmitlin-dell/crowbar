@@ -473,7 +473,7 @@ make_chroot() {
 cache_add() {
     # $1 = file to add.
     # $2 = location to store it in the cache
-    cp "$1" "$2" || \
+    sudo cp "$1" "$2" || \
         die "Cannot save $1 in $2!"
     if [[ $CURRENT_CACHE_BRANCH ]]; then
         CACHE_NEEDS_COMMIT=true
@@ -486,7 +486,7 @@ cache_rm() {
         CACHE_NEEDS_COMMIT=true
         in_cache git rm -f "${1#${CACHE_DIR}/}"
     fi
-    rm -f "$1"
+    sudo rm -f "$1"
 }
 
 make_barclamp_pkg_metadata() {
@@ -555,7 +555,7 @@ update_barclamp_pkg_cache() {
         is_pkg "$CHROOT/$CHROOT_PKGDIR/$pkg" || continue
         [[ ${pkgs["$pkg"]} = true ]] && continue
         if [[ ${pkg%/*} != '.' ]]; then
-            [[ -d $bc_cache/${pkg%/*} ]] || mkdir -p "$bc_cache/${pkg%/*}"
+            [[ -d $bc_cache/${pkg%/*} ]] || sudo mkdir -p "$bc_cache/${pkg%/*}"
             [[ -f $bc_cache/${pkg##*/} ]] && cache_rm "$bc_cache/${pkg##*/}"
         fi
         cache_add "$CHROOT/$CHROOT_PKGDIR/$pkg" "$bc_cache/${pkg//%3a/:}"
