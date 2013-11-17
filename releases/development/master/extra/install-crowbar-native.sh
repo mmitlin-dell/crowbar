@@ -230,6 +230,8 @@ elif [[ $OS = redhat ]]; then
     yum -y install 'crowbar-barclamp-*'
 elif [[ $OS = suse ]]; then
     zypper --gpg-auto-import-keys -n install -t pattern Crowbar_Admin
+elif [[ $OS = opensuse ]]; then
+    echo "openSUSE - continuing configuration. ..."
 else
     die "Cannot install onto unknown OS $OS!"
 fi
