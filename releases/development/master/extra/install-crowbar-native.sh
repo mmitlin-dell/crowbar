@@ -231,7 +231,8 @@ elif [[ $OS = redhat ]]; then
 elif [[ $OS = suse ]]; then
     zypper --gpg-auto-import-keys -n install -t pattern Crowbar_Admin
 elif [[ $OS = opensuse ]]; then
-    echo "openSUSE - continuing configuration. ..."
+    zypper install crowbar-barclamp-\*
+    sed -ie 's/tftpboot/srv\/tftpboot/' /opt/dell/crowbar_framework/Gemfile
 else
     die "Cannot install onto unknown OS $OS!"
 fi
